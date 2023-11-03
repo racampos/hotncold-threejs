@@ -18,7 +18,7 @@ const showSphereAtPoint = (point, color) => {
   const pointMesh = new THREE.Mesh(geometry, material);
   pointMesh.position.set(point.x, point.y, point.z);
   scene.add(pointMesh);
-}
+  }
 
 // // World Position Test
 // const worldPos = new THREE.Vector3(0.007254546508193016, 1.1354987621307373, -0.34986943006515503);
@@ -29,9 +29,7 @@ camera.position.z = 2;
 // camera.position.y = 1;
 
 // Hidden object
-// const rwHiddenObject = new THREE.Vector3(0.9, 0.1, -0.5);
-const rwHiddenObject = new THREE.Vector3(0.5, 0.5, -0.5);
-
+const rwHiddenObject = new THREE.Vector3(-0.5, 0.5, -0.5);
 showSphereAtPoint(rwHiddenObject, 0x00ff00);
 
 
@@ -52,7 +50,7 @@ objects.forEach((object) => {
   rwTableMesh.matrix = localMatrix;
   rwTableMesh.matrix.decompose(rwTableMesh.position, rwTableMesh.quaternion, rwTableMesh.scale);
   scene.add(rwTableMesh);
-  console.log('rwTableMesh', rwTableMesh);
+  // console.log('rwTableMesh', rwTableMesh);
 
   const v = tableMesh.geometry.attributes.position.array;
   const vertices = [];
@@ -72,17 +70,15 @@ objects.forEach((object) => {
       vertex.add(translation);
       vertex.applyMatrix4(tableMesh.matrix);
       showSphereAtPoint(vertex, 0xff0000);
-      console.log(vertex);
+      // console.log(vertex);
   };
 
   const translationMatrix = new THREE.Matrix4().makeTranslation(translation.x, translation.y, translation.z);
   const inverseMatrix = new THREE.Matrix4().copy(localMatrix).invert();
-  // const updatedMatrix = inverseMatrix.clone().multiply(translationMatrix);
   const updatedMatrix = translationMatrix.multiply(inverseMatrix);
   const hiddenObject = rwHiddenObject.clone();
   hiddenObject.applyMatrix4(updatedMatrix);
   showSphereAtPoint(hiddenObject, 0x00ff00);
-
 
 });
 
@@ -100,7 +96,7 @@ planes.forEach((plane) => {
   planeMesh.matrix = localMatrix;
   planeMesh.matrix.decompose(planeMesh.position, planeMesh.quaternion, planeMesh.scale);
   scene.add(planeMesh);
-  console.log('planeMesh', planeMesh);
+  // console.log('planeMesh', planeMesh);
 
   const v = planeMesh.geometry.attributes.position.array;
   const vertices = [];
